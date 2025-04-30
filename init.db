@@ -1,0 +1,19 @@
+CREATE TABLE doctors (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    specialization VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE appointments (
+    id SERIAL PRIMARY KEY,
+    patient_name VARCHAR(100) NOT NULL,
+    patient_phone VARCHAR(20) NOT NULL,
+    appointment_time TIMESTAMP NOT NULL,
+    doctor_id INTEGER REFERENCES doctors(id) NOT NULL,
+    status VARCHAR(20) NOT NULL
+);
+
+INSERT INTO doctors (name, specialization) VALUES
+('Иванов И.И.', 'Терапевт'),
+('Петрова А.В.', 'Хирург'),
+('Сидоров С.С.', 'Кардиолог');

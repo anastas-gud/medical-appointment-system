@@ -1,0 +1,27 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: data-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  kafka:
+    topic:
+      appointments: appointments-topic
+    consumer:
+      group-id: data-service-group
+      auto-offset-reset: earliest
+      properties:
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.example.data_service_medical.dto.AppointmentDto
+        spring.json.trusted.packages: "com.example.api_service_medical.dto,com.example.data_service_medical.dto,java.util,java.lang"
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer

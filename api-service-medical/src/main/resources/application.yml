@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-service
+
+data:
+  service:
+    url: http://data-service:8081
+
+kafka:
+  topic:
+    appointments: appointments-topic
