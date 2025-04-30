@@ -14,7 +14,6 @@ import java.util.List;
 public class AppointmentController {
     private final AppointmentService appointmentService;
 
-    //todo попробуй возвращать дто!!!
     @GetMapping
     public List<AppointmentDto> searchAppointments(
             @RequestParam(required = false) String patientName,

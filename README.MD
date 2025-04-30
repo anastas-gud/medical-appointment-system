@@ -18,7 +18,7 @@
 ## Запуск системы
 1. Клонируйте репозиторий:
 
-`git clone https://github.com/your-repo/medical-appointment-system.git`
+`git clone https://github.com/anastas-gud/medical-appointment-system.git`
    
 `cd medical-appointment-system`
 2. Запустите систему:
