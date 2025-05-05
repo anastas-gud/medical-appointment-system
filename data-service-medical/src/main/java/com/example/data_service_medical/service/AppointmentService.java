@@ -5,7 +5,9 @@ import com.example.data_service_medical.model.Appointment;
 import com.example.data_service_medical.model.Doctor;
 import com.example.data_service_medical.repository.AppointmentRepository;
 import com.example.data_service_medical.repository.DoctorRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class AppointmentService {
     private final AppointmentRepository appointmentRepository;
     private final DoctorRepository doctorRepository;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public void createAppointment(AppointmentDto appointmentDto) {
@@ -40,21 +43,17 @@ public class AppointmentService {
                 .collect(Collectors.toList());
     }
     public AppointmentDto appointmentToDto(Appointment appointment){
-        AppointmentDto appointmentDto=new AppointmentDto();
-        appointmentDto.setPatientName(appointment.getPatientName());
-        appointmentDto.setPatientPhone(appointment.getPatientPhone());
-        appointmentDto.setAppointmentTime(appointment.getAppointmentTime());
+        AppointmentDto appointmentDto = modelMapper.map(appointment, AppointmentDto.class);
         appointmentDto.setDoctorId(appointment.getDoctor().getId());
-        appointmentDto.setStatus(appointment.getStatus());
         return appointmentDto;
     }
     public Appointment appointmentFromDto(AppointmentDto appointmentDto){
-        Appointment appointment=new Appointment();
-        appointment.setPatientName(appointmentDto.getPatientName());
-        appointment.setPatientPhone(appointmentDto.getPatientPhone());
-        appointment.setAppointmentTime(appointmentDto.getAppointmentTime());
-        appointment.setDoctor(doctorRepository.findById(appointmentDto.getDoctorId()).get());
-        appointment.setStatus(appointmentDto.getStatus());
+        Appointment appointment=modelMapper.map(appointmentDto, Appointment.class);
+        if (appointmentDto.getDoctorId() != null) {
+            Doctor doctor = doctorRepository.findById(appointmentDto.getDoctorId())
+                    .orElseThrow(() -> new EntityNotFoundException("Doctor not found"));
+            appointment.setDoctor(doctor);
+        }
         return appointment;
     }
 }

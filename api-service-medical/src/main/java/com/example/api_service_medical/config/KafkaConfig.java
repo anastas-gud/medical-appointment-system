@@ -1,4 +1,4 @@
-package com.example.api_service_medical.kafka;
+package com.example.api_service_medical.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
